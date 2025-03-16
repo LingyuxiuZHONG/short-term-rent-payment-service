@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD MyBatis Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.paymentservice.mapper.PaymentMapper">
+    <!-- 插入支付记录 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO payment (booking_id, payment_method, amount, status)
+        VALUES (#{bookingId}, #{paymentMethod}, #{amount}, #{status})
+    </insert>
+
+    <!-- 更新支付状态 -->
+    <update id="updateStatus">
+        UPDATE payment
+        SET status = #{status}, transaction_id = #{transactionId}, reason = #{reason}, updated_at = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据booking_id查找支付记录 -->
+    <select id="getPaymentByBookingId" resultType="com.example.paymentservice.model.Payment">
+        SELECT * FROM payment WHERE booking_id = #{bookingId}
+    </select>
+
+    <!-- 根据id查找支付记录 -->
+    <select id="getPaymentById" resultType="com.example.paymentservice.model.Payment">
+        SELECT * FROM payment WHERE id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE payment
+        <set>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="transactionId != null">
+                transaction_id = #{transactionId},
+            </if>
+            <if test="refundTransactionId != null">
+                refund_transaction_id = #{refundTransactionId},
+            </if>
+            <if test="reason != null">
+                reason = #{reason},
+            </if>
+            <if test="paidAt != null">
+                paid_at = #{paidAt},
+            </if>
+            <if test="refundedAt != null">
+                refunded_at = #{refundedAt},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+</mapper>
