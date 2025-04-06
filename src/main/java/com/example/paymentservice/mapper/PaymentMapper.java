@@ -19,4 +19,6 @@ public interface PaymentMapper {
     Payment getPaymentById(Long paymentId);
 
     void update(Payment payment);
+
+    Payment getByOutTradeNo(String outTradeNo);
 }

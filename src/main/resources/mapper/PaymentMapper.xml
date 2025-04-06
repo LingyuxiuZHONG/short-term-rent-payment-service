@@ -4,8 +4,8 @@
 <mapper namespace="com.example.paymentservice.mapper.PaymentMapper">
     <!-- 插入支付记录 -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO payment (booking_id, payment_method, amount, status)
-        VALUES (#{bookingId}, #{paymentMethod}, #{amount}, #{status})
+        INSERT INTO payment (booking_id, payment_method, amount, status, out_trade_no)
+        VALUES (#{bookingId}, #{paymentMethod}, #{amount}, #{status}, #{outTradeNo})
     </insert>
 
     <!-- 更新支付状态 -->
@@ -14,6 +14,10 @@
         SET status = #{status}, transaction_id = #{transactionId}, reason = #{reason}, updated_at = CURRENT_TIMESTAMP
         WHERE id = #{id}
     </update>
+
+    <select id="getByOutTradeNo">
+        SELECT * FROM payment WHERE out_trade_no = #{outTradeNo}
+    </select>
 
     <!-- 根据booking_id查找支付记录 -->
     <select id="getPaymentByBookingId" resultType="com.example.paymentservice.model.Payment">

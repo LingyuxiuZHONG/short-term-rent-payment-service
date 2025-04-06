@@ -19,4 +19,6 @@ public class Payment {
     private String refundTransactionId;
     private LocalDateTime paidAt;
     private LocalDateTime refundedAt;
+    private BigDecimal refundAmount;
+    private String outTradeNo;
 }
